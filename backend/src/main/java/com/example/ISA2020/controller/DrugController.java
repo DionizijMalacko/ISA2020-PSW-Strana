@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.ISA2020.dto.DrugDTO;
+import com.example.ISA2020.dto.DrugCreateDTO;
 import com.example.ISA2020.dto.DrugNameAndCodeDTO;
 import com.example.ISA2020.entity.Drug;
 import com.example.ISA2020.service.DrugService;
@@ -39,7 +39,7 @@ public class DrugController {
 
 	
 	@PostMapping(value = "/create")
-    public ResponseEntity<Drug> create(@RequestBody DrugDTO drugDTO) {
+    public ResponseEntity<Drug> create(@RequestBody DrugCreateDTO drugDTO) {
         try {
             Drug newDrug = drugService.createDrug(drugDTO);
             if (newDrug == null) {
@@ -148,7 +148,7 @@ public class DrugController {
 		List<Drug> drugsWithSameName = new ArrayList<>();
 		
 		for(Drug d : drugs) {
-			if(d.getName().equals(name)) {
+			if(d.getName().toLowerCase().contains(name.toLowerCase())) {
 				drugsWithSameName.add(d);
 			}
 		}

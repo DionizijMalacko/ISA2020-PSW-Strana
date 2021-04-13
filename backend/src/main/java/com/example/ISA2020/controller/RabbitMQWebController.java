@@ -8,13 +8,12 @@ import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.ISA2020.dto.PharmacyDrugDetailsDTO;
 import com.example.ISA2020.entity.Message;
 import com.example.ISA2020.entity.PharmacyDrugDetails;
 import com.example.ISA2020.entity.TenderMessage;
@@ -79,7 +78,7 @@ public class RabbitMQWebController {
 		msg.setSendRoutingKey(tenderMessage.getSendRoutingKey());
 		
 		
-		List<PharmacyDrugDetails> pharmacyDrugDetails = pharmacyDrugDetailsService.getAllPharmacyDrugDetails();
+		List<PharmacyDrugDetailsDTO> pharmacyDrugDetails = pharmacyDrugDetailsService.getAllPharmacyDrugDetails();
 		if(pharmacyDrugDetails.isEmpty()) {
 			return null;
 		}
@@ -92,13 +91,13 @@ public class RabbitMQWebController {
 		
 		List<TenderOffer> tenderOffers = new ArrayList<>();
 		
-		for(PharmacyDrugDetails p : pharmacyDrugDetails) {
+		for(PharmacyDrugDetailsDTO p : pharmacyDrugDetails) {
 			//if(p.getDrug().getCode().equals(code)) {
 				//System.out.println("Usao je u if");
 				TenderOffer t = new TenderOffer();
 				//t.setCode(code);
-				t.setCode(p.getDrug().getCode());
-				t.setName(p.getDrug().getName());
+				t.setCode(p.getDrugCode());
+				t.setName(p.getDrugName());
 				t.setQuantity(p.getQuantity());
 				
 				double randomPriceDouble = leftLimit + new Random().nextDouble() * (rightLimit - leftLimit);

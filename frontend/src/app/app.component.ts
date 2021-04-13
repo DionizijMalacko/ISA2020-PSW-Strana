@@ -16,15 +16,15 @@ import { UserService } from './services/user.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  
+
 
   title = 'ISA-project';
   hospitals: any;
   user: LoggedInUser;
 
   constructor(private router: Router,
-              private http: HttpClient, 
-              private userService: UserService, 
+              private http: HttpClient,
+              private userService: UserService,
               private breakpointObserver: BreakpointObserver) { }
 
 
@@ -34,13 +34,12 @@ export class AppComponent implements OnInit {
       map(result => result.matches),
       shareReplay()
     );
-  
-  
-  
-  
+
+
+
+
 
   ngOnInit() {
-    this.getHospitals();
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         if (this.isLoggedIn()) {
@@ -59,20 +58,8 @@ export class AppComponent implements OnInit {
     this.router.navigate(['/user/login']);
   }
 
-  getHospitals() {
-    this.http.get('http:localhost:8080/api/auth/hospital/getAll').subscribe(response => {
-      this.hospitals = response; 
-    }, error => {
-      console.log(error);
-    })
-  }
-
   isPatient(){
     return this.userService.isPatient();
-  }
-
-  isPharmacyAdmin(){
-    return this.userService.isPharmacyAdmin();
   }
 
   isSystemAdmin(){

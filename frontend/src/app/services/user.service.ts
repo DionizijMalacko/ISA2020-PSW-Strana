@@ -8,21 +8,26 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { LoggedInUser } from '../models/loggedInUser';
 import { UserLoginRequest } from '../models/userLoginRequest';
 import { map } from 'rxjs/operators';
+import { UserTokenState } from '../models/userTokenState';
+import {UserNewPass} from '../models/userNewPass';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
 
     access_token = null;
-  
+    req: UserTokenState;
     loggedInUserSubject: BehaviorSubject<LoggedInUser>;
     loggedInUser: Observable<LoggedInUser>;
 
 
 
-
     constructor(private http: HttpClient, private router: Router) {
-        this.loggedInUserSubject = new BehaviorSubject<LoggedInUser>(JSON.parse(localStorage.getItem('LoggedInUser')));
-        this.loggedInUser = this.loggedInUserSubject.asObservable();
+      this.loggedInUserSubject = new BehaviorSubject<LoggedInUser>(JSON.parse(localStorage.getItem('LoggedInUser')));
+      this.loggedInUser = this.loggedInUserSubject.asObservable();
+    }
+
+    changePassword(user: UserNewPass) {
+      return this.http.put(environment.baseUrl + '' /*environment.changePassword*/, user);
     }
 
     login(user: UserLoginRequest) {
@@ -39,8 +44,9 @@ export class UserService {
         this.router.navigate(['']);
     }
 
-    
+
     getLoggedInUser(): LoggedInUser {
+      console.log(this.loggedInUserSubject.value);
         return this.loggedInUserSubject.value;
       }
 

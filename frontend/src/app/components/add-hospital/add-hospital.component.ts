@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Hospital } from 'src/app/models/hospital';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { HospitalService } from 'src/app/services/hospital-service.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-add-hospital',
@@ -16,14 +17,15 @@ export class AddHospitalComponent implements OnInit {
 
   constructor(
     private _hospitalService: HospitalService,
-    private _formBuilder: FormBuilder) { }
+    private _formBuilder: FormBuilder,
+    public router: Router) { }
 
   ngOnInit(): void {
     this.createNewHospitalForm = this._formBuilder.group({
       name: new FormControl(null, [Validators.required]),
       city: new FormControl(null, [Validators.required]),
       address: new FormControl(null, [Validators.required])
-      
+
     })
   }
 
@@ -48,5 +50,9 @@ export class AddHospitalComponent implements OnInit {
       }
     );
   }
-  
+
+  goBack() {
+    this.router.navigate(['/all-hospitals']);
+  }
+
 }

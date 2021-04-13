@@ -1,5 +1,6 @@
 package com.example.ISA2020.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +12,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.ISA2020.dto.PharmacyDTO;
-import com.example.ISA2020.entity.Drug;
-import com.example.ISA2020.entity.Hospital;
+import com.example.ISA2020.dto.PharmacyDrugDetailsDTO;
+import com.example.ISA2020.dto.PharmacyNameAddressDTO;
 import com.example.ISA2020.entity.Pharmacy;
 import com.example.ISA2020.service.PharmacyService;
 
@@ -28,7 +30,7 @@ public class PharmacyController {
 	private PharmacyService pharmacyService;
 	
 	@PostMapping(value = "/create")
-    public ResponseEntity<Pharmacy> create(@RequestBody PharmacyDTO pharmacyDTO) {
+    public ResponseEntity<Pharmacy> create(@RequestBody PharmacyNameAddressDTO pharmacyDTO) {
         try {
             Pharmacy newPharmacy = pharmacyService.createPharmacy(pharmacyDTO);
             if (newPharmacy == null) {
@@ -42,8 +44,8 @@ public class PharmacyController {
     }
 	
 	@GetMapping(value="/getAll")
-	public ResponseEntity<List<Pharmacy>> getAllPharmacies() {
-		List<Pharmacy> pharmacies = pharmacyService.getAllPharmacies();
+	public ResponseEntity<List<PharmacyDTO>> getAllPharmacies() {
+		List<PharmacyDTO> pharmacies = pharmacyService.getAllPharmacies();
 	
 		return new ResponseEntity<>(pharmacies, HttpStatus.OK);
 	}
@@ -55,5 +57,28 @@ public class PharmacyController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<>(pharmacy, HttpStatus.OK);
+	}
+	
+	@GetMapping(value="/getAllWithSameName")
+	public ResponseEntity<List<PharmacyDTO>> getAllPharmaciessWithSameName(@RequestParam("name") String name) {
+		List<PharmacyDTO> pharmacies = pharmacyService.getAllPharmacies();
+		if(pharmacies.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		List<PharmacyDTO> pharmaciesWithSameName = new ArrayList<>();
+		
+		for(PharmacyDTO p : pharmacies) {
+			if(p.getName().toLowerCase().contains(name.toLowerCase())) {
+				PharmacyDTO dto = new PharmacyDTO();
+				dto.setName(p.getName());
+				dto.setId(p.getId());
+				dto.setAddress(p.getAddress());
+				pharmaciesWithSameName.add(dto);
+			}
+		}
+		
+		
+		return new ResponseEntity<>(pharmaciesWithSameName, HttpStatus.OK);
 	}
 }

@@ -6,15 +6,17 @@ export const environment = {
   production: false,
   hmr                 : false,
   itemsPerPage        : 5,
-  baseUrl             : "http://localhost:8080",
-  
-  login               : "/api/auth/login",
-  register            : "/api/auth/user/register",
+  baseUrl             : 'http://localhost:8080',
 
-  createNewHospital   : "/api/auth/hospital/create",
-  getAllHospitals     : "/api/auth/hospital/getAll",
-  getOneHospital      : "/api/auth/hospital/",
-  
+  login               : '/api/auth/login',
+  register            : '/api/auth/user/register',
+
+  createNewHospital   : '/api/auth/hospital/create',
+  getAllHospitals     : '/api/auth/hospital/getAll',
+  getOneHospital      : '/api/auth/hospital/',
+
+  patient             : '/api/patient',
+
 };
 
 /*

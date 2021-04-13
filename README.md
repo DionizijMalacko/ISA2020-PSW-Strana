@@ -1,2 +1,4 @@
-# ISA2020-PSW-Strana
-Project that comunicates with PSW project Hospital through HTTP/gRPc/SFTP, and also has implemented RabbitMQ.
+# ISA2020
+Projekat iz kursa Internet Softverske Arhitekture 2020
+
+https://trello.com/b/zjG1qLaw/isa-2020

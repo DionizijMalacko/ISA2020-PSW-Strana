@@ -1,5 +1,6 @@
 package com.example.ISA2020.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +12,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.ISA2020.dto.HospitalDTO;
+import com.example.ISA2020.entity.Drug;
 import com.example.ISA2020.entity.Hospital;
 import com.example.ISA2020.service.HospitalService;
 
@@ -42,9 +45,6 @@ public class HospitalController {
 	@GetMapping(value="/getAll")
 	public ResponseEntity<List<Hospital>> getAllHospitals() {
 		List<Hospital> hospitals = hospitalService.getAllHospitals();
-		if(hospitals.isEmpty()) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
 		return new ResponseEntity<>(hospitals, HttpStatus.OK);
 	}
 	
@@ -56,5 +56,20 @@ public class HospitalController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<>(hospital, HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/getAllWithSameName")
+	public ResponseEntity<List<Hospital>> getListOfHospitalsByName(@RequestParam("name") String name) throws Exception{
+		List<Hospital> hospitals = hospitalService.getAllHospitals();
+		
+		List<Hospital> hospitalsWithSameName = new ArrayList<>();
+		
+		for(Hospital d : hospitals) {
+			if(d.getName().toLowerCase().contains(name.toLowerCase())) {
+				hospitalsWithSameName.add(d);
+			}
+		}
+		
+		return new ResponseEntity<List<Hospital>>(hospitalsWithSameName, HttpStatus.OK);
 	}
 }

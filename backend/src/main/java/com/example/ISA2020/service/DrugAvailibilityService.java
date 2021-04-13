@@ -31,7 +31,7 @@ public class DrugAvailibilityService extends DrugAvailabilityImplBase {
 	@Override
 	public void findDrug(FindDrugRequest request, StreamObserver<FindDrugResponse> responseObserver) {
 		
-		List<PharmacyDrugDetails> pharmacyDrugDetails = pharmacyDrugDetailsService.getAllPharmacyDrugDetails();
+		List<PharmacyDrugDetails> pharmacyDrugDetails = pharmacyDrugDetailsService.getAllPharmacyDrugDetailsFull();
 		
 		List<Drug> ret = new ArrayList<>();
 		
@@ -55,7 +55,7 @@ public class DrugAvailibilityService extends DrugAvailabilityImplBase {
 	
 	@Override
 	public void orderDrug(OrderDrugRequest request, StreamObserver<OrderDrugResponse> responseObserver) {
-		List<PharmacyDrugDetails> pharmacyDrugDetails = pharmacyDrugDetailsService.getAllPharmacyDrugDetails();
+		List<PharmacyDrugDetails> pharmacyDrugDetails = pharmacyDrugDetailsService.getAllPharmacyDrugDetailsFull();
 		
 		int oldQuantity = 0;
 		int newQuantity = 0;

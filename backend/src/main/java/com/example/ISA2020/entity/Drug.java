@@ -50,6 +50,16 @@ public class Drug {
 		this.details = null;
 //		this.pharmacies = null;
 	}
+	
+	
+
+	public Drug(Long id, @NotNull(message = "Name cannot be null.") String name,
+			@NotNull(message = "Code cannot be null.") String code) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.code = code;
+	}
 
 	public Long getId() {
 		return id;
@@ -74,6 +84,24 @@ public class Drug {
 	public void setCode(String code) {
 		this.code = code;
 	}
+
+	public Set<Pharmacy> getPharmacies() {
+		return pharmacies;
+	}
+
+	public void setPharmacies(Set<Pharmacy> pharmacies) {
+		this.pharmacies = pharmacies;
+	}
+
+	public Set<PharmacyDrugDetails> getDetails() {
+		return details;
+	}
+
+	public void setDetails(Set<PharmacyDrugDetails> details) {
+		this.details = details;
+	}
+	
+	
 	
 	
   
